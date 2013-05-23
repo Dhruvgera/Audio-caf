@@ -338,6 +338,7 @@ else
 LOCAL_SHARED_LIBRARIES := \
 	liblog \
 	libcutils \
+	libhardware \
 	libtinyalsa \
 	libaudioroute \
 	libdl \
@@ -356,6 +357,7 @@ LOCAL_C_INCLUDES += \
 	external/tinycompress/include \
 	system/media/audio_utils/include \
 	external/expat/lib \
+	hardware/libhardware/include \
 	$(call include-path-for, audio-route) \
 	$(call include-path-for, audio-effects) \
 	$(LOCAL_PATH)/$(AUDIO_PLATFORM) \
@@ -448,6 +450,7 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_BATTERY_LISTENER)), true)
     LOCAL_STATIC_LIBRARIES := libhealthhalutils
 endif
 
+
 ifeq ($(strip $(AUDIO_FEATURE_ENABLED_KEEP_ALIVE_ARM_FFV)), true)
     LOCAL_CFLAGS += -DRUN_KEEP_ALIVE_IN_ARM_FFV
 endif
@@ -459,6 +462,13 @@ ifeq ($(strip $(AUDIO_FEATURE_ENABLED_FFV)), true)
 endif
 
 LOCAL_CFLAGS += -D_GNU_SOURCE
+
+ifneq ($(strip $(AUDIO_FEATURE_ENABLED_EXT_AMPLIFIER)),false)
+    LOCAL_CFLAGS += -DEXT_AMPLIFIER_ENABLED
+    LOCAL_SRC_FILES += audio_extn/audio_amplifier.c
+endif
+
+
 LOCAL_CFLAGS += -Wall -Werror
 LOCAL_CLANG_CFLAGS += -Wno-unused-variable -Wno-unused-function -Wno-missing-field-initializers
 
