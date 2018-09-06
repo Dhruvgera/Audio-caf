@@ -340,6 +340,7 @@ LOCAL_SHARED_LIBRARIES := \
 	libcutils \
 	libhardware \
 	libtinyalsa \
+	libtinycompress \
 	libaudioroute \
 	libdl \
 	libaudioutils \
